@@ -32,14 +32,14 @@ export default{
         const api = `${process.env.VUE_APP_API}admin/signin`
         this.$http.post(api, this.FormData)
             .then((res) => {
-                console.log(res)
-                /*
                 if (res.data.success) {
+                    console.log(res.data)
+                    //取出token, expired參數
                     const { token, expired } = res.data
+                    //將token與日期存入cookie
                     document.cookie = `MyVueToken=${token}; MyVueExpired=${new Date(expired)}`
-                    this.$router.push('/dashborder/productlist')
+                    this.$router.push('/DashBorder/Product')
                 }
-                */
             })
         }
         

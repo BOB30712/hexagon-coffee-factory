@@ -48,6 +48,17 @@ const routes = [
     component: () => import('../views/LogIn.vue'),
   },
   {
+    path:'/DashBorder',
+    name:'DashBorder',
+    component: () => import('../views/DashBorder.vue'),
+    children:[
+      {
+        path:'Product',
+        component: () => import('../views/ProductList.vue')
+      }
+    ]
+  },
+  {
     path:'/AcompPage',
     name:'acomppage',
     component: () => import('../views/AcompPage.vue'),
