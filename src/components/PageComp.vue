@@ -26,7 +26,7 @@ export default{
     },
     computed:{
         pagecount(){
-            return Math.round(this.alldata.length/3)
+            return Math.ceil(this.alldata.length/3)
         }
     },
     methods:{

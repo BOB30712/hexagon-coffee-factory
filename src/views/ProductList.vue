@@ -2,7 +2,7 @@
     <div class="container">
     <div class="row my-5">
         <div class="col-4">
-            <button type="button" class="btn btn-outline-dark w-100 mb-5" style="letter-spacing: 3px;">新增商品</button>
+            <button @click.prevent="openProductModal(true)" type="button" class="btn btn-outline-dark w-100 mb-5" style="letter-spacing: 3px;">新增商品</button>
             <ul class="list-group">
             <li class="list-group-item active" aria-current="true">An active item</li>
             <li class="list-group-item">A second item</li>
@@ -29,9 +29,9 @@
                     <td>{{item.category}}</td>
                     <td>{{item.title}}</td>
                     <td>{{item.price}}</td>
-                    <td v-if="item.is_enabled">啟動</td>
-                    <td v-else>未啟動</td>
-                    <td class="text-center">編輯</td>
+                    <td class="text-success" v-if="item.is_enabled">啟動</td>
+                    <td class="text-danger" v-else>未啟動</td>
+                    <td @click.prevent="openProductModal(false,item)" class="text-center">編輯</td>
                 </tr>
             </tbody>
             </table>
@@ -47,14 +47,21 @@
         </div>
     </div>
     </div>
+    <productmodal ref='productmodal' :product="tempProduct" @update-product="updateProduct"/>
 </template>
 
 <script>
+import productmodal from '@/components/ProductModal.vue'
 export default{
     data(){
         return{
-            allProduct:[]
+            allProduct:[],
+            tempProduct:{},
+            isNew:false
         }
+    },
+    components:{
+        productmodal
     },
     methods:{
         getAllProduct(){
@@ -63,6 +70,34 @@ export default{
                 .then((res) => {
                     console.log(res)
                     this.allProduct=res.data.products
+            });
+        },
+        openProductModal(isNew,item){
+            if(isNew){
+                this.tempProduct={}
+            }else{
+                this.tempProduct={...item}
+            }
+            this.isNew = isNew
+            const Component = this.$refs.productmodal
+            Component.show()
+        },
+        updateProduct(item){
+            this.tempProduct = item
+            const productComponent = this.$refs.productmodal
+            // 新增
+            let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`
+            let httpMethod = 'post'
+            // 編輯
+            if (!this.isNew) {
+                httpMethod = 'put'
+                api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`
+            }
+            this.$http[httpMethod](api,{data:this.tempProduct})
+                .then((res) => {
+                    console.log(res)
+                    this.getAllProduct()
+                    productComponent.hide()
             });
         }
     },

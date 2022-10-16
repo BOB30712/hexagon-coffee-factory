@@ -1,8 +1,13 @@
 <template>
+    <backendnavbar/>
     <router-view></router-view>
 </template>
 <script>
+import backendnavbar from '@/components/BackendNavbar.vue'
 export default{
+    components:{
+        backendnavbar
+    },
     created() {
         //取出cookie裡面存入的token
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)MyVueToken\s*=\s*([^;]*).*$)|^.*$/, "$1");
