@@ -11,10 +11,10 @@
         <router-link class="nav-link fs-3" to="/DashBorder/Product">產品列表</router-link>
         </li>
         <li class="nav-item">
-        <router-link class="nav-link fs-3" to="/UserCart">訂單列表</router-link>
+        <router-link class="nav-link fs-3" to="/DashBorder/Order">訂單列表</router-link>
         </li>
         <li class="nav-item">
-        <router-link class="nav-link fs-3" to="/JoinCourse">優惠卷</router-link>
+        <router-link class="nav-link fs-3" to="/DashBorder/Coupon">優惠卷</router-link>
         </li>
         <li class="nav-item">
         <a @click.prevent="logout" href="#" class="link nav-link fs-3" to="/AboutUs">登出LogOut</a>

@@ -1,4 +1,5 @@
 <template>
+    <LoadIng :active="isLoading"></LoadIng>
     <div class="row mt-5 justify-content-center g-5">
         <div class="col-lg-5 col-8">
             <img class="w-100" style="height: 300px;object-fit: cover;" :src="product.imageUrl" alt="商品圖片">
@@ -29,6 +30,7 @@
     </div>
     <div class="row my-5 d-flex justify-content-center">
         <h3 class="other-product text-center">你可能也會喜歡</h3>
+        <randomProduct @change-product="getProduct"/>
     </div>
 </template>
 <style>
@@ -58,13 +60,18 @@
 }
 </style>
 <script>
+import randomProduct from '@/components/ProductRandom.vue'
 export default{
     data () {
         return {
             id:'',
             productqty:1,
             product:{},
+            isLoading:true,
         }
+    },
+    components:{
+        randomProduct
     },
     methods:{
         updateqty(qty){
@@ -76,6 +83,7 @@ export default{
             .then((res) => {
                 this.product = res.data.product
                 console.log(this.product)
+                this.isLoading=false
             })
         },
         AddtoCart(id,qty){
@@ -91,6 +99,11 @@ export default{
             this.$emitter.emit('productcart','觸發子元件重新整理')
             this.productqty=1
         })
+        },
+        getProduct (item) {
+            this.isLoading=true
+            this.id=item.id
+            this.productinfo()
         }
     },
     created () {

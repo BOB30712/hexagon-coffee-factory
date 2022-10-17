@@ -21,55 +21,63 @@
                 <th scope="col" width="100">價格</th>
                 <th scope="col" width="80">是否啟用</th>
                 <th scope="col" width="150" class="text-center">編輯</th>
+                <th scope="col" width="150" class="text-center">刪除</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index,num) in allProduct" :key="item">
-                    <th scope="row">{{num+1}}</th>
+                <tr v-for="(item,index) in allProduct" :key="item">
+                    <th scope="row">{{index+1}}</th>
                     <td>{{item.category}}</td>
                     <td>{{item.title}}</td>
                     <td>{{item.price}}</td>
                     <td class="text-success" v-if="item.is_enabled">啟動</td>
                     <td class="text-danger" v-else>未啟動</td>
-                    <td @click.prevent="openProductModal(false,item)" class="text-center">編輯</td>
+                    <td class="text-center"><button @click.prevent="openProductModal(false,item)" type="button" class="btn btn-outline-success">編輯</button></td>
+                    <td class="text-center"><button @click.prevent="openDelProductModal(item)" type="button" class="btn btn-outline-danger">刪除</button></td>
                 </tr>
             </tbody>
             </table>
             <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link border" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link border" href="#">1</a></li>
-                <li class="page-item"><a class="page-link border" href="#">2</a></li>
-                <li class="page-item"><a class="page-link border" href="#">3</a></li>
-                <li class="page-item"><a class="page-link border" href="#">Next</a></li>
+            <ul class="pagination justify-content-center">
+                <li :class="{disabled:!pagination.has_pre}" class="page-item"><a @click.prevent="changePage(CurrentPage-1)" class="page-link border" href="#">Previous</a></li>
+                <template v-for="(item,index) in pagination.total_pages" :key="item">
+                <li :class="{active:index+1==pagination.current_page}" class="page-item"><a @click.prevent="changePage(index+1)" class="page-link border" href="#">{{index+1}}</a></li> 
+                </template>
+                <li :class="{disabled:!pagination.has_next}" class="page-item"><a @click.prevent="changePage(CurrentPage+1)" class="page-link border" href="#">Next</a></li>
             </ul>
             </nav>
         </div>
     </div>
     </div>
     <productmodal ref='productmodal' :product="tempProduct" @update-product="updateProduct"/>
+    <delproductmodal ref='delproduct' :item="tempProduct" @del-product="delProduct"/>
 </template>
 
 <script>
 import productmodal from '@/components/ProductModal.vue'
+import delproductmodal from '@/components/DelCheckModal.vue'
 export default{
     data(){
         return{
             allProduct:[],
             tempProduct:{},
-            isNew:false
+            isNew:false,
+            CurrentPage:1,
+            pagination:{}
         }
     },
     components:{
-        productmodal
+        productmodal,
+        delproductmodal
     },
     methods:{
         getAllProduct(){
-            const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products/all`;
+            const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${this.CurrentPage}`;
             this.$http.get(api)
                 .then((res) => {
                     console.log(res)
                     this.allProduct=res.data.products
+                    this.pagination=res.data.pagination
             });
         },
         openProductModal(isNew,item){
@@ -81,6 +89,22 @@ export default{
             this.isNew = isNew
             const Component = this.$refs.productmodal
             Component.show()
+        },
+        openDelProductModal(item){
+            this.tempProduct=item;
+            const Component = this.$refs.delproduct
+            Component.show()
+        },
+        delProduct(item){
+            this.tempProduct=item;
+            const Component = this.$refs.delproduct
+            let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`
+            this.$http.delete(api)
+                .then((res) => {
+                    console.log(res)
+                    this.getAllProduct()
+                    Component.hide()
+            });
         },
         updateProduct(item){
             this.tempProduct = item
@@ -99,6 +123,10 @@ export default{
                     this.getAllProduct()
                     productComponent.hide()
             });
+        },
+        changePage(num){
+            this.CurrentPage=num
+            this.getAllProduct()
         }
     },
     created(){

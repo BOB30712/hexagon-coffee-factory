@@ -23,7 +23,7 @@
                 <p class="text-end" style="font-size: 200px;"><i class="bi bi-cup-hot"></i></p>
             </div>
         </div>
-        <p class="text-center py-3">僅個人練習使用．不做商業用途<router-link class="border-start border-2 px-3 mx-3" to="/login">管理員登入</router-link></p>
+        <p class="text-center py-3">僅個人練習使用．不做商業用途<router-link class="border-start border-2 px-3 mx-3" to="/DashBorder/Product">管理員登入</router-link><router-link class="border-start border-2 px-3" to="/">回首頁</router-link></p>
         </div>
     </footer>
 </template>
