@@ -136,7 +136,7 @@ export default {
     .then((res) => {
       const num=Math.random()*res.data.products.length
       this.product=res.data.products[parseInt(num)];
-      console.log(parseInt(num))
+      //console.log(parseInt(num))
     });
   }
 }

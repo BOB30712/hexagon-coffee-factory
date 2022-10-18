@@ -4,12 +4,9 @@
   <div class="row g-3 mb-3">
     <div class="col-lg-6 col-12 text-center">
       <h2>我們的理念</h2>
-      <p>「 秋日薄暮，用菊花煮竹葉青，人與海棠俱醉 」</p>
-      <p class="text-start ps-lg-5"> 林清玄在《溫一壺月光下酒》中寫到，在秋日薄暮時分，<br>
-          來點小酒，人和海棠花皆醉了。<br>
-          這樣的場景僅在腦海里一閃而過，就不禁陶醉其中。<br>
-          我們致力於打造一個舒適的飲酒場景，<br>
-          希望客人在我們店裡只有愜意沒有拘謹。</p>
+      <p class="text-start ps-lg-5 fs-3 mt-lg-5"> 
+        強調品嚐咖啡的純粹，以及突顯自家的烘焙器材與特調咖啡，從現代的冰釀咖啡到傳統的希臘咖啡都有提供。
+      </p>
     </div>
     <div class="col-lg-6 col-10 d-flex justify-content-center mx-auto">
       <img class="w-100" src="https://i.pinimg.com/originals/ff/a9/6e/ffa96ede4039820cdac1185df70b8dc7.gif" alt="街道">

@@ -2,7 +2,7 @@
     <ul class="progress-cart  list-unstyled d-flex justify-content-center mt-5">
         <li class="active ok">購物車清單</li>
         <li class="active">輸入資料</li>
-        <li>step3</li>
+        <li>確認付款</li>
     </ul>
     <div class="my-5 row justify-content-center">
       <FoRm class="col-md-6 py-3 border border-dark border-3" v-slot="{ errors }" style="border-radius: 5%;">
@@ -71,6 +71,7 @@ export default{
       .then((res)=>{
         console.log(res)
         this.$emitter.emit('productcart','觸發子元件重新整理')
+        this.$router.push(`/UserCheckOut/${res.data.orderId}`)
       })
     }
   }

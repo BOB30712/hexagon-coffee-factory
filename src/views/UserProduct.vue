@@ -82,7 +82,6 @@ export default{
             this.$http.get(api)
             .then((res) => {
                 this.product = res.data.product
-                console.log(this.product)
                 this.isLoading=false
             })
         },
@@ -94,8 +93,7 @@ export default{
         console.log(data)
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
         this.$http.post(api,{'data':data})
-        .then((res) => {
-            console.log(res)
+        .then(() => {
             this.$emitter.emit('productcart','觸發子元件重新整理')
             this.productqty=1
         })

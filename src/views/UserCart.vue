@@ -20,7 +20,7 @@
                 <li class="col">
                     <div class="card w-100 position-relative test1-link">
                         <div class="position-absolute top-0 end-0 m-3 test1">
-                            <button :disabled="favoritelist.includes(item.title)" @click.prevent="addFavorite(item.title)" style="border: 0px solid black;background-color:transparent;"><i class="bi bi-heart-fill fs-3 py-0 text-danger" v-if="favoritelist.includes(item.title)"></i><i class="bi bi-heart-fill fs-3 py-0 text-white" v-else></i></button>
+                            <button :disabled="favoritelist.includes(item)" @click.prevent="addFavorite(item)" style="border: 0px solid black;background-color:transparent;"><i class="bi bi-heart-fill fs-3 py-0 text-danger" v-if="favoritelist.includes(item)"></i><i class="bi bi-heart-fill fs-3 py-0 text-white" v-else></i></button>
                         </div>
                         <img :src="item.imageUrl" class="card-img-top" alt="商品圖片" style="height:200px;object-fit: cover;">
                         <div class="card-body">
@@ -158,8 +158,8 @@ export default {
             this.status=id;
             const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
             this.$http.post(api,{data:cart})
-            .then((res) => {
-                console.log(res)
+            .then(() => {
+                //console.log(res)
                 this.$emitter.emit('productcart',id)
                 this.$emitter.emit('opentoast',{style:'success',text:name+'加入購物車成功'})
             });
@@ -167,16 +167,15 @@ export default {
         getProduct (id) {
         this.$router.push(`/UserProduct/${id}`)
         },
-        addFavorite(name){
+        addFavorite(item){
             //localStorage.setItem('count', this.num);
-            this.$emitter.emit('senddata',name);
-            this.favoritelist.push(name)
+            this.$emitter.emit('senddata',item);
+            this.favoritelist.push(item)
         },
-        getFavorite(){
-            alert(localStorage.getItem('count'))
+        clearFavorite(){
+            this.favoritelist=[]
         },
         selector (category) {
-            //alert(`${process.env.VUE_APP_API}`);
             const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`
             this.$http.get(api)
             .then((res) => {
@@ -200,8 +199,9 @@ export default {
           this.products=res.data.products;
           //this.list=this.products;
           this.isLoading=false
-          console.log(this.products);
+          //console.log(this.products);
         });
+        this.$emitter.on('clear', this.clearFavorite)
         $(document).ready(function(){
             $('.selector').click(function(){
                 $(this).addClass('active').parent().siblings().find('.selector').removeClass('active');

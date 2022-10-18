@@ -1,8 +1,8 @@
 <template>
     <ul class="progress-cart  list-unstyled d-flex justify-content-center mt-5">
         <li class="active">購物車清單</li>
-        <li>step2</li>
-        <li>step3</li>
+        <li>輸入資料</li>
+        <li>確認付款</li>
     </ul>
     <div class="row justify-content-center">
         <div class="col-lg-8 col-10 border border-secondary border-3 p-3 mb-5 me-lg-5 table-responsive-lg">
@@ -61,11 +61,6 @@
 </template>
 
 <style>
-*{
-    outline: 0px solid black;
-}
-.progress-cart {
-}
 .progress-cart  li {
   list-style-type: none;
   float:left;
@@ -125,10 +120,8 @@
                 const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`
                     this.$http.get(url)
                     .then((res) => {
-                        console.log(res)
                         this.ProductCart=res.data.data.carts
                         this.totalPrice=res.data.data.final_total
-                        console.log('ProductCart',this.ProductCart)
                     })
             },
             UpdateCartQty(id,qty){
@@ -138,16 +131,14 @@
                 }
                 const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`
                 this.$http.put(url,{'data':data})
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
                     this.getProductCart()
                 })
             },
             DeleteCart(id){
                 const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`
                 this.$http.delete(url)
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
                     this.getProductCart()
                     this.$emitter.emit('productcart','觸發子元件重新整理')
                 })
@@ -155,8 +146,7 @@
             DeleteAllCart(){
                 const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`
                 this.$http.delete(url)
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
                     this.getProductCart()
                     this.$emitter.emit('productcart','觸發子元件重新整理')
                     this.$emitter.emit('opentoast',{style:'danger',text:`移除所有購物車`})
@@ -168,8 +158,7 @@
                 }
                 const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`
                 this.$http.post(api,{data:coupon})
-                .then((res) => {
-                    console.log(res)
+                .then(() => {
                     this.getProductCart();
                 });
             }

@@ -69,7 +69,7 @@ export default {
       this.$http.get(api)
         .then((res) => {
           this.product=res.data.products
-          console.log('product',this.product);
+          //console.log('product',this.product);
         });
     },
     getProduct (id) {

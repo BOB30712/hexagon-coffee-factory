@@ -39,6 +39,10 @@ const routes = [
       {
         path:'SendOrder',
         component: () => import('../views/SendOrder.vue')
+      },
+      {
+        path:'UserCheckOut/:UserCartid',
+        component: () => import('../views/UserCheckOut.vue')
       }
     ]
   },

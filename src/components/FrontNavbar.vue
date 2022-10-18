@@ -67,6 +67,7 @@
             .then((res) => {
                 this.cartnum=res.data.data.carts.length
             })
+        this.$emitter.on('clear', () => { this.num = 0})
         this.$emitter.on('productcart', this.getproduct)
         this.$emitter.on('senddata', this.updatenum)
         /*
