@@ -2,11 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
-    path:'/HomePage',
-    name:'homepage',
-    component: () => import('../views/HomePage.vue')
-  },
-  {
     path:'/',
     name:'UserBoard',
     component: () => import('../views/UserBoard.vue'),
@@ -67,20 +62,6 @@ const routes = [
       {
         path:'Coupon',
         component: () => import('../views/CouponsList')
-      }
-    ]
-  },
-  {
-    path:'/AcompPage',
-    name:'acomppage',
-    component: () => import('../views/AcompPage.vue'),
-    children:[
-      {
-        path:'AcompPage2',
-        components:{
-          left:() => import('../views/AcompPage1.vue'),
-          right:() => import('../views/AcompPage2.vue')
-        } 
       }
     ]
   }
